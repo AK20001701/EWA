@@ -1,6 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:qwerty1243@localhost:3306/ewadb'
@@ -8,6 +8,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = '9y$B&E)H@McQfTjWnZr4u7x!z%C*F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3'
 db = SQLAlchemy()
 db.init_app(app)
+
+app._static_folder = "../static"
+app.config['UPLOAD_FOLDER'] = './static/file/'
 
 from src.models import User
 
@@ -19,23 +22,75 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-from src import models, route
+from src import models
 
-# from src.models import Role
-# with app.app_context():
-#     db.create_all()
-#     admin = Role(
-#         name="Admin"
-#     )
-#     teacher = Role(
-#         name="Teacher"
-#     )
-#     student = Role(
-#         name="Student"
-#     )
-#     db.session.add(admin)
-#     db.session.commit()
-#     db.session.add(teacher)
-#     db.session.commit()
-#     db.session.add(student)
-#     db.session.commit()
+from src.routes import general, lesson, material, course, user, test
+
+if False:
+    from src.models import Role
+    from werkzeug.security import generate_password_hash
+    from datetime import datetime
+
+    with app.app_context():
+        db.create_all()
+        print("Database created...")
+        admin = Role(
+            name="Admin"
+        )
+        teacher = Role(
+            name="Teacher"
+        )
+        student = Role(
+            name="Student"
+        )
+        db.session.add(admin)
+        db.session.commit()
+        print("Admin role added...")
+        db.session.add(teacher)
+        db.session.commit()
+        print("Teacher role added...")
+        db.session.add(student)
+        db.session.commit()
+        print("Student role added...")
+
+        hash_password = generate_password_hash("q")
+        new_user = User(
+            login="q",
+            email="q@q.q",
+            password=hash_password,
+            registration_date=datetime.date(datetime.now()),
+            first_name="q",
+            last_name="Q"
+        )
+        new_user.roles.append(Role.query.filter(Role.name == 'Admin').first())
+        db.session.add(new_user)
+        db.session.commit()
+
+        hash_password = generate_password_hash("s")
+        new_user = User(
+            login="s",
+            email="s@s.s",
+            password=hash_password,
+            registration_date=datetime.date(datetime.now()),
+            first_name="s",
+            last_name="S"
+        )
+        new_user.roles.append(Role.query.filter(Role.name == 'Student').first())
+        db.session.add(new_user)
+        db.session.commit()
+
+        hash_password = generate_password_hash("at")
+        new_user = User(
+            login="at",
+            email="at@at.at",
+            password=hash_password,
+            registration_date=datetime.date(datetime.now()),
+            first_name="at",
+            last_name="at"
+        )
+        new_user.roles.append(Role.query.filter(Role.name == 'Teacher').first())
+        new_user.roles.append(Role.query.filter(Role.name == 'Admin').first())
+        db.session.add(new_user)
+        db.session.commit()
+        print("Users added...")
+        print("Data base configuration finished!")

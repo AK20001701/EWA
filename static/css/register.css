@@ -1,0 +1,92 @@
+.authorizationForm {
+    display: flex;
+    height: 100%;
+}
+
+.authorizationForm__row {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 75px 100px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #6f4495, #242582);
+}
+
+.form__label {
+    color: aliceblue;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.login__input {
+    width: 198px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.password {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background: white;
+    margin-bottom: 15px;
+}
+
+.password__input {
+    width: 171px;
+    border: none;
+    padding: 10px;
+}
+
+.password__icon {
+    margin-right: 10px;
+}
+
+.registerButton {
+    font-size: 20px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #6f4495, #f64c72);
+    padding: 5px 20px;
+    color: aliceblue;
+    margin-bottom: 15px;
+
+    transition: 1s linear;
+}
+
+.registerButton:hover {
+    color: #242582;
+}
+
+.loginLink {
+    font-size: 15px;
+    color: #dedae0;
+    text-decoration: none;
+
+    transition: 1s;
+}
+
+.loginLink:hover {
+    color: #f64c72;
+    text-decoration: none;
+}
+
+.reg__error {
+      width: 200px;
+    background-color: #f64c72;
+    color: aliceblue;
+    padding: 15px;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+}

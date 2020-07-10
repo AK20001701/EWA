@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+    <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
+
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+
+<div class="wrapper">
+
+    {% from 'macro/headerMacro.html' import header %}
+    {% from 'macro/footerMacro.html' import footer %}
+
+    {{ header(current_user) }}
+
+
+    <div class="content">
+        <div class="container">
+            <div class="authorizationForm">
+                <div class="authorizationForm__row">
+
+                    <form class="registerForm" method="POST" action="{{ url_for("registration_page") }}">
+
+                        <label class="form__label">Логин</label>
+                        <input type="text" class="login__input" id="login_input" name="login_input" placeholder="User"
+                               required>
+
+
+                        <label class="form__label">Почта</label>
+                        <input type="email" class="login__input" id="email_input" name="email_input"
+                               aria-describedby="emailHelp" placeholder="mail@gmail.com" required>
+
+                        <label class="form__label">Пароль</label>
+
+                        <div class="password">
+                            <input type="password" class="password__input" name="password_input" id="password_input"
+                                   required>
+                            <i class="fas fa-eye-slash password__icon" id="showPassword" onclick="showHidePassword()"
+                               style="display: none"></i>
+                            <i class="fas fa-eye password__icon" id="hidePassword" onclick="showHidePassword()"></i>
+                        </div>
+
+                        <label class="form__label">Повтор пароля</label>
+
+                        <div class="password">
+                            <input type="password" class="password__input" name="password_input_conf"
+                                   id="password_input_conf" required>
+                            <i class="fas fa-eye-slash password__icon" id="showPasswordConf"
+                               onclick="showHidePassword()"
+                               style="display: none"></i>
+                            <i class="fas fa-eye password__icon" id="hidePasswordConf" onclick="showHidePassword()"></i>
+                        </div>
+                        <button class="registerButton" type="submit" onsubmit="isSame()">Зарегестрироваться</button>
+
+
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="reg__error">
+                                    <ul class=flashes>
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <div>
+                            <a class="loginLink" href={{ url_for('login_page') }}>Войти</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ footer(current_user) }}
+
+</div>
+</body>
+</html>

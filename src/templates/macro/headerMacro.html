@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HEADER MACRO</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+    <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+<div class="wrapper">
+    {% macro header(current_user) %}
+        <header class="header">
+            <div class="container">
+                <div class="header__row">
+                    <div class="header__logo__1">
+                        EWA | Educational web app
+                    </div>
+                    <div class="header__logo__2">
+                        EWA
+                    </div>
+                    <div class="right__part__menu_btn" onclick="onMenuClick()">
+                    <span class="menu__burger" id="menu__burger">
+                        <i class="fas fa-bars"></i>
+                    </span>
+                        <span class="menu__x" id="menu__x">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    </div>
+                    <div class="right__part" id="right__part">
+                        <ul class="header__links">
+                            <li class="header__link"><a href="{{ url_for('all_courses') }}">Courses</a></li>
+                            <li class="header__link"><a href="#">About</a></li>
+                        </ul>
+                        <div class="header__user">
+                            {% if current_user.is_authenticated %}
+
+                                <div class="header__user__profile" onclick="onProfileClick()">
+                                    <div class="user__name">
+                                        {{ current_user.login }}
+                                    </div>
+                                    <img class="user__img" src="{{ url_for('static', filename='image/flex.png') }}"
+                                         alt="{{ current_user.name }}">
+
+                                    <div class="header__closed__menu" id="header__closed__menu">
+                                        <i class="fas fa-sort-down"></i>
+                                    </div>
+
+                                    <div class="header__opened__menu" id="header__opened__menu">
+                                        <i class="fas fa-sort-up"></i>
+                                    </div>
+
+
+                                    <div class="user__dropdown" id="user__dropdown">
+                                        <a id="Profile" href="{{ url_for("user_page") }}">Profile</a>
+                                        <a href="{{ url_for("logout") }}">Logout</a>
+                                    </div>
+                                </div>
+
+
+                            {% else %}
+                                <a class="header__login" href="{{ url_for("login_page") }}">Login</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endmacro %}
+</div>
+
+
+</body>
+</html>

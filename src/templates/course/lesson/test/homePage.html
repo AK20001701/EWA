@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+    <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course/lesson/test/testHomePage.css') }}">
+    <script src="{{ url_for('static', filename='js/testHomePage.js') }}"></script>
+</head>
+<body>
+
+<div class="wrapper">
+    {% from 'macro/headerMacro.html' import header %}
+    {% from 'macro/footerMacro.html' import footer %}
+
+    {{ header(current_user) }}
+
+
+    <div class="content">
+        <div class="container">
+            <div class="test__name"> {{ test.name }}</div>
+
+            <form action="{{ url_for("get_result",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}" method="POST">
+                <div class="test">
+                    {% for question in questions %}
+                        <div class="question">
+
+                            <div class="firstRow">
+                                <div class="question__name">
+                                    1. {{ question.text }}
+                                </div>
+
+                                <div class="question__flagOff" id="{{ question.id }}"
+                                     onclick="flagChange({{ question.id }})">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="question__flagOn" id="{{ question.id }}On"
+                                     onclick="flagChange({{ question.id }})">
+                                    <i class="far fa-flag"></i>
+                                </div>
+                            </div>
+
+                            <div class="question__val">
+                                Максимальный балл: {{ question.max_val }}
+                            </div>
+
+                            {% if question.q_type == 'option' %}
+
+                                {% for answer in question.answer %}
+                                    <div class="answer__option">
+                                        <input type="checkbox" name="{{ answer.id }}" class="answer__cb">
+                                        <div class="answer__cb__text">
+                                            {{ answer.text }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% elif question.q_type == 'text' %}
+                                {% for answer in question.answer %}
+                                        <input class="answer__input" type="text" name="{{ answer.id }}">
+                                 {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="test__btn">Проверить</button>
+
+
+                    <a href="{{ url_for('create_question',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
+                       class="btn btn-primary ml-2">Add question</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {{ footer(current_user) }}
+</div>
+</body>
+</html>

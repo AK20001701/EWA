@@ -38,7 +38,8 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     rating = db.Column(db.Float, unique=False, nullable=False)
-    description = db.Column(db.String(255), unique=True, nullable=False)
+    description = db.Column(db.String(255), unique=False, nullable=False)
+    visible = db.Column(db.Boolean, unique=False, nullable=False)
     users = db.relationship('User', secondary=user_course, lazy=False, backref=db.backref('users', lazy=True))
     lessons = db.relationship('Lesson', backref='course', lazy=True)
 
@@ -46,6 +47,7 @@ class Course(db.Model):
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
+    description = db.Column(db.String(255), unique=False, nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     test = db.relationship('Test', backref='lesson', lazy=True)
@@ -53,6 +55,8 @@ class Lesson(db.Model):
 
 
 # add course img
+
+# maybe add position column to control position of test/material by sorting quarry
 
 class Test(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,6 +70,8 @@ class Test(db.Model):
 class Material(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
+    file_name = db.Column(db.String(255), unique=False, nullable=False)
+    extension = db.Column(db.String(120), unique=False, nullable=False)
     m_type = db.Column(db.String(100), unique=False, nullable=False)
     path_to_file = db.Column(db.String(255), unique=False, nullable=False)
     lesson_id = db.Column(db.Integer, db.ForeignKey('lesson.id'), nullable=False)
@@ -80,15 +86,15 @@ class Question(db.Model):
     answer = db.relationship('Answer', backref='question', lazy=True)
     hint = db.relationship('Hint', backref='hint', lazy=True)
 
-    result = db.relationship('Result', backref='question', lazy=True)
-
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), unique=False, nullable=False)
     val = db.Column(db.Float, unique=False, nullable=False)
-    a_type = db.Column(db.String(100), unique=False, nullable=False)
+    a_type = db.Column(db.String(100), unique=False, nullable=True)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+
+    result = db.relationship('Result', backref='question', lazy=True)
 
 
 class Hint(db.Model):
@@ -102,7 +108,7 @@ class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     result = db.Column(db.Float, unique=False, nullable=False)
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), unique=False, nullable=False)
+    answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'), unique=False, nullable=False)
 
 
 class Attendance(db.Model):
