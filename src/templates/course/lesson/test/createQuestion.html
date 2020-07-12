@@ -13,10 +13,8 @@
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
     <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
 
-    <!-- bootstrap -->
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='js/createQuestion.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course/lesson/test/createQuestion.css') }}">
 </head>
 <body>
 
@@ -30,131 +28,83 @@
 
     <div class="content">
         <div class="container">
-            Content
+            <div class="question">
+
+                <form class="mt-3" method="POST"
+                      action="{{ url_for("create_question", course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
+                      enctype="multipart/form-data"
+                >
+
+
+                    <label class="question__label">Вопрос</label>
+                    <input
+                            type="text"
+                            class="question__input"
+                            name="question_text"
+                            id="question_text"
+                            placeholder="Text"
+                            required
+                    >
+
+
+                    <label class="question__label">Балл</label>
+                    <input
+                            type="text"
+                            class="question__input"
+                            name="max_val"
+                            id="max_val"
+                            placeholder="10"
+                            required
+                    >
+
+
+                    <label class="question__label">Тип вопроса</label>
+                    <select class="question__input" id="question_type" name="question_type"
+                            onchange="changeTypeOfAnswer()">
+                        <option value="option">С выбором</option>
+                        <option value="text" selected>Текстовое поле</option>
+                    </select>
+
+
+                    <div id="textAnswer" class="textAnswer">
+                        <label class="question__label">Ответ</label>
+                        <input
+                                type="text"
+                                class="question__input"
+                                name="answer_text"
+                                id="answer"
+                                placeholder="Ответ"
+                        >
+                    </div>
+
+                    <div class="optionButtons">
+                        <button id="optionButton1" type="button" class="question__btn optionButtons__item" onclick="addOption()"
+                                style="display: none">+
+                        </button>
+                        <button id="optionButton2" type="button" class="question__btn optionButtons__item" onclick="remove()"
+                                style="display: none">-
+                        </button>
+                    </div>
+
+                    <input type="text" id="count" name="count" value="1" hidden>
+                    <div id="optionAnswer" style="display: none">
+                        <div id="option1" class="option">
+                            <input class="question__cb" type="checkbox" id="cb1" name="cb1" value="1">
+                            <input class="question__input" type="text" id="text1" name="text1" placeholder="Ответ">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="question__btn">Создать</button>
+                    <a class="question__btn" href="{{ url_for("test_home_page",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}">Назад</a>
+                </form>
+
+            </div>
         </div>
     </div>
 
     {{ footer(current_user) }}
 
 </div>
-
-
-<div class="container">
-
-    <form class="mt-3" method="POST"
-          action="{{ url_for("create_question", course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
-          enctype="multipart/form-data"
-    >
-
-        <div class="form-group">
-            <label for="question_text">Question text</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    name="question_text"
-                    id="question_text"
-                    placeholder="Text"
-                    required
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="max_val">Value</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    name="max_val"
-                    id="max_val"
-                    placeholder="10"
-                    required
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="question_type">Question type</label>
-            <select class="form-control mb-3" id="question_type" name="question_type" onchange="changeTypeOfAnswer()">
-                <option value="option">With answers</option>
-                <option value="text" selected>Text field</option>
-            </select>
-        </div>
-
-        <div class="form-group" id="textAnswer">
-            <label for="answer">Text Answer</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    name="answer_text"
-                    id="answer"
-                    placeholder="Text"
-            >
-        </div>
-
-        <input type="text" id="count" name="count" value="1" hidden>
-        <div id="optionAnswer" style="display: none">
-            <div id="option1">
-                <input type="checkbox" id="cb1" name="cb1" value="1">
-                <input type="text" id="text1" name="text1" placeholder="Answer">
-            </div>
-        </div>
-
-        <button type="button" class="btn btn-primary" onclick="addOption()">Add</button>
-        <button type="button" class="btn btn-primary" onclick="remove()">Remove</button>
-
-        <button type="submit" class="btn btn-primary">Create</button>
-
-        <a href="{{ url_for('welcome') }}" class="btn btn-primary ml-2">Main page</a>
-    </form>
-
-</div>
-
-
-<script type="text/javascript">
-    function changeTypeOfAnswer() {
-        let value = document.getElementById("question_type").value;
-        if (value === "option") {
-            document.getElementById("optionAnswer").style.display = "block";
-            document.getElementById("textAnswer").style.display = "none";
-        } else if (value === "text") {
-            document.getElementById("textAnswer").style.display = "block";
-            document.getElementById("optionAnswer").style.display = "none";
-        }
-    }
-
-    let count = 1;
-
-    function addOption() {
-        let rootElement = document.getElementById("optionAnswer")
-        count++;
-        let countElement = document.getElementById("count")
-        countElement.value = count;
-        let newOption = document.createElement("div");
-        newOption.id = "option" + count;
-        newOption.innerHTML =
-            "<input type=\"checkbox\" id=\"cb" + count + "\" name=\"cb" + count + "\" value=\"" + count + "\"> " +
-            "<input type=\"text\" id=\"text" + count + "\" name=\"text" + count + "\" placeholder=\"Answer\">";
-        rootElement.appendChild(newOption);
-    }
-
-    function remove() {
-        let rootElement = document.getElementById("optionAnswer")
-        let elementToRemove = document.getElementById("option" + count)
-        rootElement.removeChild(elementToRemove)
-        count--;
-        let countElement = document.getElementById("count")
-        countElement.value = count;
-    }
-
-</script>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
 </body>
 </html>

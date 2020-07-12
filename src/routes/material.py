@@ -28,7 +28,7 @@ def create_material(course_id, lesson_id):
         next_material_id = prev_material_id + 1
         filename = str(lesson_id) + '_' + str(next_material_id) + "_" + filename
 
-        path_to_file = os.path.join(app.config['UPLOAD_FOLDER'] + filename)
+        path_to_file = os.path.join(app.config['UPLOAD_FOLDER_MATERIAL'] + filename)
         file.save(path_to_file)
 
         new_material = Material(

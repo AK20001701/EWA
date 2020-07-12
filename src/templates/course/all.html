@@ -28,16 +28,25 @@
     <div class="content">
         <div class="container">
             <div class="courses">
-                <div class="course__search__row">
 
-                </div>
+                <form class="course__search__row" action="{{ url_for("all_courses") }}" method="GET">
+                    <input class="course__input" type="text" name="course_name">
+                    <input class="course__btn" type="submit" value="Поиск">
+                </form>
+
                 <div class="courses__row">
 
                     {% for course in courses %}
                         <div class="course">
 
                             <div class="course__img">
-                                <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
+
+                                {% if course.image_name != "" %}
+                                    <img src="{{ url_for('static', filename='image/' + course.image_name) }}" alt="course">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
+                                {% endif %}
+
                             </div>
                             <div class="course__title">
                                 {{ course.name }}

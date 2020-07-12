@@ -29,7 +29,7 @@
         <div class="container">
             <div class="test__name"> {{ test.name }}</div>
 
-            <form action="{{ url_for("get_result",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}" method="POST">
+            <form action="{{ url_for("test_check",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}" method="POST">
                 <div class="test">
                     {% for question in questions %}
                         <div class="question">
@@ -75,7 +75,7 @@
 
 
                     <a href="{{ url_for('create_question',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
-                       class="btn btn-primary ml-2">Add question</a>
+                       class="btn btn-primary ml-2">Добавить вопрос</a>
                 </div>
             </form>
         </div>

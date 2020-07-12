@@ -5,7 +5,28 @@
 }
 
 .course__search__row {
-    background-color: #f64c72;
+    display: flex;
+    flex-direction: row;
+}
+
+.course__input {
+    margin: 25px 15px;
+    padding: 5px;
+    background: white;
+    width: 100%;
+    font-size: 25px;
+    border: 2px solid #6f4495;
+}
+
+.course__btn {
+    margin: 25px 0;
+    padding: 5px 20px;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+
+    transition: 1s;
 }
 
 .courses__row {

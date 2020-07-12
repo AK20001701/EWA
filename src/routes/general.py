@@ -1,11 +1,11 @@
 from datetime import datetime
 
 from flask import render_template, request, flash, redirect, url_for
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from src import app, db
-from src.models import User
+from src.models import User, Course
 
 
 @app.route('/t')
@@ -73,6 +73,11 @@ def registration_page():
         return render_template("general/register.html")
 
 
+@app.errorhandler(404)
+def invalid_route(e):
+    return render_template("general/fourZeroFourError.html")
+
+
 @app.after_request
 def redirect_to_login(response):
     if response.status_code == 401:
@@ -82,4 +87,9 @@ def redirect_to_login(response):
 
 @app.route('/test')
 def test():
+
+    course_with_id = Course.query.filter(Course.id == 1).first()
+
+    print(course_with_id.users)
+
     return render_template("general/test.html")

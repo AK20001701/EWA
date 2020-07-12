@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
 from src import app, db
-from src.models import User, Course, Role, Lesson, Material, Test, Question, Answer, Result
+from src.models import User, Course, Role, Lesson, Material, Test, Question, Answer, Result, Attempt
 
 
 @app.route("/courses/<course_id>/lesson/<lesson_id>/test/create", methods=['GET', 'POST'])
@@ -91,10 +91,11 @@ def create_question(course_id, lesson_id, test_id):
 
                 answer_value = 0
 
-                if check_box is not None:
-                    answer_value = int(max_val) / correct_answer_count
-                else:
-                    answer_value = -int(max_val) / correct_answer_count
+                if correct_answer_count != 0:
+                    if check_box is not None:
+                        answer_value = int(max_val) / correct_answer_count
+                    else:
+                        answer_value = -int(max_val) / correct_answer_count
 
                 new_answer = Answer(
                     text=answer_text,
@@ -130,52 +131,129 @@ def create_question(course_id, lesson_id, test_id):
     )
 
 
-@app.route("/courses/<course_id>/lesson/<lesson_id>/test/<test_id>/result", methods=['GET', 'POST'])
+@app.route("/courses/<course_id>/lesson/<lesson_id>/test/<test_id>/result", methods=['POST'])
 @login_required
-def get_result(course_id, lesson_id, test_id):
+def test_check(course_id, lesson_id, test_id):
     course_with_id = Course.query.filter(Course.id == course_id).first()
     lesson_with_id = Lesson.query.filter(Lesson.id == lesson_id).first()
     test_with_id = Test.query.filter(Test.id == test_id).first()
 
-    if request.method == 'POST':
+    attempt = Attempt.query.filter(Attempt.user_id == current_user.id).filter(Attempt.test_id == test_id).first()
+    if attempt is None:
+        new_attempt = Attempt(
+            test_id=test_id,
+            user_id=current_user.id,
+            count=1
+        )
+        db.session.add(new_attempt)
+        db.session.commit()
+    else:
+        attempt_count = attempt.count
+        new_attempt_count = attempt_count + 1
+        Attempt.query.filter(Attempt.user_id == current_user.id).filter(Attempt.test_id == test_id).update(
+            dict(count=new_attempt_count)
+        )
 
-        for question in test_with_id.question:
-            for answer in question.answer:
-                answer_with_id = Answer.query.filter(Answer.id == answer.id).first()
-                answer_text = str(request.form.get(str(answer.id))).lower()
+    new_attempt_count = Attempt.query.filter(Attempt.user_id == current_user.id).filter(
+        Attempt.test_id == test_id).first().count
 
-                if answer_with_id.a_type == "text":
-                    if answer_with_id.text == answer_text:
-                        answer_val = answer_with_id.val
+    for question in test_with_id.question:
+        for answer in question.answer:
+            answer_with_id = Answer.query.filter(Answer.id == answer.id).first()
+            answer_text = str(request.form.get(str(answer.id))).lower()
 
-                        result = Result(
-                            result=answer_val,
-                            user_id=current_user.id,
-                            answer_id=answer.id
-                        )
-                        db.session.add(result)
-                        db.session.commit()
-                elif answer_with_id.a_type == "option":
-                    if answer_text == "on":
-                        answer_val = answer_with_id.val
-                        result = Result(
-                            result=answer_val,
-                            user_id=current_user.id,
-                            answer_id=answer.id
-                        )
-                        db.session.add(result)
-                        db.session.commit()
+            if answer_with_id.a_type == "text":
+                if answer_with_id.text == answer_text:
+                    answer_val = answer_with_id.val
+                else:
+                    answer_val = 0
+                res = Result(
+                    result=answer_val,
+                    attempt=new_attempt_count,
+                    user_id=current_user.id,
+                    answer_id=answer.id
+                )
+                db.session.add(res)
+                db.session.commit()
 
-        return redirect(url_for(
-            'test_home_page',
-            course_id=course_id,
-            lesson_id=lesson_id,
-            test_id=test_id
-        ))
+            elif answer_with_id.a_type == "option":
+
+                if answer_text == "on":
+                    answer_val = answer_with_id.val
+                    res = Result(
+                        result=answer_val,
+                        attempt=new_attempt_count,
+                        user_id=current_user.id,
+                        answer_id=answer.id
+                    )
+                    db.session.add(res)
+                    db.session.commit()
+                else:
+                    answer_val = 0
+                    res = Result(
+                        result=answer_val,
+                        attempt=new_attempt_count,
+                        user_id=current_user.id,
+                        answer_id=answer.id
+                    )
+                    db.session.add(res)
+                    db.session.commit()
+            else:
+                res = Result(
+                    result=0,
+                    attempt=new_attempt_count,
+                    user_id=current_user.id,
+                    answer_id=answer.id
+                )
+                db.session.add(res)
+                db.session.commit()
+
+    return redirect(url_for(
+        'result',
+        course_id=course_id,
+        lesson_id=lesson_id,
+        test_id=test_id,
+        attempt=new_attempt_count
+    ))
+
+
+@app.route("/courses/<course_id>/lesson/<lesson_id>/test/<test_id>/result/<attempt>", methods=['GET'])
+@login_required
+def result(course_id, lesson_id, test_id, attempt):
+    course_with_id = Course.query.filter(Course.id == course_id).first()
+    lesson_with_id = Lesson.query.filter(Lesson.id == lesson_id).first()
+    test_with_id = Test.query.filter(Test.id == test_id).first()
+
+    attempt_count = Attempt.query.filter(Attempt.user_id == current_user.id).filter(
+        Attempt.test_id == test_id).first().count
+
+    max_result = 0
+
+    user_result = 0
+
+    for question in test_with_id.question:
+        max_result = max_result + question.max_val
+        question_result = 0
+
+        print(question.text)
+        for answer in question.answer:
+            print(answer.text)
+            answer_result = Result.query.filter(Result.user_id == current_user.id).filter(
+                Result.answer_id == answer.id).filter(
+                Result.attempt == attempt).first()
+            question_result += answer_result.result
+
+        if question_result < 0:
+            question_result = 0
+        user_result = user_result + question_result
 
     return render_template(
         "course/lesson/test/result.html",
         course=course_with_id,
         lesson=lesson_with_id,
-        test=test_with_id
+        test=test_with_id,
+        max_result=max_result,
+        user_result=user_result,
+        attempt_count=attempt_count,
+        current_attempt=int(attempt)
     )

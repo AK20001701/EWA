@@ -40,6 +40,7 @@ class Course(db.Model):
     rating = db.Column(db.Float, unique=False, nullable=False)
     description = db.Column(db.String(255), unique=False, nullable=False)
     visible = db.Column(db.Boolean, unique=False, nullable=False)
+    image_name = db.Column(db.String(255), unique=False, nullable=False)
     users = db.relationship('User', secondary=user_course, lazy=False, backref=db.backref('users', lazy=True))
     lessons = db.relationship('Lesson', backref='course', lazy=True)
 
@@ -104,9 +105,17 @@ class Hint(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
 
 
+class Attempt(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column('test_id', db.Integer, db.ForeignKey('test.id'), unique=False, nullable=False)
+    user_id = db.Column('user_id', db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
+    count = db.Column(db.Integer, unique=False, nullable=True)
+
+
 class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     result = db.Column(db.Float, unique=False, nullable=False)
+    attempt = db.Column(db.Integer, nullable=False)
     user_id = db.Column('user_id', db.Integer, db.ForeignKey('user.id'), unique=False, nullable=False)
     answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'), unique=False, nullable=False)
 

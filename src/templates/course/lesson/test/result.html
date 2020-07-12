@@ -13,10 +13,11 @@
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
     <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
 
-    <!-- bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course/lesson/test/result.css') }}">
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 </head>
 <body>
 
@@ -30,30 +31,45 @@
 
     <div class="content">
         <div class="container">
-            Content
+
+            <div class="result">
+                <div class="result__attempts">
+                    {% for attempt in range(1, attempt_count) %}
+                        {% if current_attempt != attempt %}
+                            <a href="{{ url_for("result",course_id=course.id, lesson_id=lesson.id, test_id=test.id, attempt=attempt) }}"
+                               class="attempt">{{ attempt }}</a>
+                        {% else %}
+                            <a href="{{ url_for("result",course_id=course.id, lesson_id=lesson.id, test_id=test.id, attempt=attempt) }}"
+                               class="selected__attempt">{{ attempt }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="result__row">
+                    <div class="result__chart">
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                    <div class="result__progress">
+                        Ваш результат: {{ user_result }} из {{ max_result }}
+                        или {{ (user_result/max_result*100)|round(2, 'floor') }}%!
+                    </div>
+                </div>
+
+                <a href="{{ url_for("test_home_page",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
+                   class="test__btn">Попробовать еще!</a>
+
+                <a href="{{ url_for("lesson_home_page",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
+                   class="test__btn">Вернуться к уроку</a>
+            </div>
+
+            <script>
+                drawPie({{ max_result }}, {{ user_result }})
+            </script>
         </div>
     </div>
 
     {{ footer(current_user) }}
 
 </div>
-
-<div class="container">
-
-    <h1>{{ test.name }}</h1>
-
-
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
 </body>
 </html>

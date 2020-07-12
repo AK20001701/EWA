@@ -30,9 +30,6 @@
     <div class="content">
         <div class="container">
             <div class="course">
-                <div class="course__title">
-
-                </div>
                 <div class="course__img">
                     <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
                 </div>
@@ -55,12 +52,15 @@
                     {{ course.description }}
                 </div>
 
-                <a href="{{ url_for('course_home_page', course_id = course.id) }}">
+                <a href="{{ url_for('enroll', course_id = course.id) }}">
                     <div class="course__enroll__btn">
-                        Записаться
+                        {% if enrolled %}
+                            Зайти
+                        {% else %}
+                            Записаться
+                        {% endif %}
                     </div>
                 </a>
-
             </div>
         </div>
     </div>

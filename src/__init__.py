@@ -10,7 +10,8 @@ db = SQLAlchemy()
 db.init_app(app)
 
 app._static_folder = "../static"
-app.config['UPLOAD_FOLDER'] = './static/file/'
+app.config['UPLOAD_FOLDER_MATERIAL'] = './static/file/'
+app.config['UPLOAD_FOLDER_IMAGE'] = './static/image/'
 
 from src.models import User
 
