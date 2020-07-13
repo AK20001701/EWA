@@ -4,8 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:qwerty1243@localhost:3306/ewadb'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://gjnagtbgtvhczd:30ac7d0c0bd65d09212fe389c1f54c30dca8f807e67d82d573dc999a7eea7b27@ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/dct2kehbdqtefg'
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = '9y$B&E)H@McQfTjWnZr4u7x!z%C*F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3'
 db = SQLAlchemy()
