@@ -29,7 +29,7 @@ from src import models
 
 from src.routes import general, lesson, material, course, user, test
 
-if True:
+if False:
     from src.models import Role
     from werkzeug.security import generate_password_hash
     from datetime import datetime
