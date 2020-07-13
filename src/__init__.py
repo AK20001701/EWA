@@ -3,8 +3,8 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:qwerty1243@localhost:3306/ewadb'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://iwjcbzyitqdpbn:5078e7a049906eddf612fde3b38cbbeb7dab4afbfebdfdc52f0f5e5e0d6a2c85@ec2-54-75-246-118.eu-west-1.compute.amazonaws.com:5432/d23iqktpff5ilm'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:qwerty1243@localhost:3306/ewadb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://gjnagtbgtvhczd:30ac7d0c0bd65d09212fe389c1f54c30dca8f807e67d82d573dc999a7eea7b27@ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/dct2kehbdqtefg'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = '9y$B&E)H@McQfTjWnZr4u7x!z%C*F-JaNdRgUkXp2s5v8y/B?D(G+KbPeShVmYq3'
@@ -29,7 +29,7 @@ from src import models
 
 from src.routes import general, lesson, material, course, user, test
 
-if False:
+if True:
     from src.models import Role
     from werkzeug.security import generate_password_hash
     from datetime import datetime
