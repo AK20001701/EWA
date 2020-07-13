@@ -1,0 +1,33 @@
+.welcome {
+    display: flex;
+    flex-direction: column;
+
+    align-content: center;
+    justify-content: center;
+
+    height: 100%;
+}
+
+.welcome__text {
+    text-align: center;
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.welcome__btn {
+    margin: 20px 0;
+    padding: 20px 20px;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+    text-align: center;
+    transition: 1s;
+
+}
+
+
+.welcome__btn:hover {
+    color: #242582;
+}

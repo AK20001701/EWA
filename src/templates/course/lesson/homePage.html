@@ -24,7 +24,6 @@
 
     {{ header(current_user) }}
 
-
     <div class="content">
         <div class="container">
             <div class="lesson">
@@ -41,9 +40,21 @@
                 <div class="lesson__pre">
                     Сложность: {{ lesson.difficulty }}
                 </div>
-                <div class="back__btn">
-                    <a href="{{ url_for( 'course_home_page',course_id=course.id) }}">Назад</a>
-                </div>
+
+                <a class="back__btn" href="{{ url_for( 'course_home_page',course_id=course.id) }}">Назад</a>
+
+
+                {% if is_creator %}
+                    <a class="create_btn"
+                       href="{{ url_for( 'create_material',course_id=course.id, lesson_id=lesson.id) }}">
+                        Add material
+                    </a>
+
+                    <a class="create_btn" href="{{ url_for( 'create_test',course_id=course.id, lesson_id=lesson.id) }}">
+                        Add test
+                    </a>
+                {% endif %}
+
 
                 <div class="material__title">
                     Материалы
@@ -51,14 +62,13 @@
 
                 {% for material in materials %}
                     <div class="material">
-                        <div class="material__title">
+                        <div class="material__name">
                             {{ material.name }}
                         </div>
-                        <div class="material__btn">
-                            <a href="{{ url_for( 'download_material',course_id=course.id, lesson_id=lesson.id, material_id=material.id) }}">
-                                Скачать
-                            </a>
-                        </div>
+                        <a class="material__btn"
+                           href="{{ url_for( 'download_material',course_id=course.id, lesson_id=lesson.id, material_id=material.id) }}">
+                            Скачать
+                        </a>
                     </div>
                 {% endfor %}
 
@@ -69,7 +79,7 @@
 
                 {% for test in tests %}
                     <div class="test">
-                        <div class="test__title">
+                        <div class="test__name">
                             {{ test.name }}
                         </div>
 
@@ -81,25 +91,15 @@
                             До: {{ test.exp_date }}
                         </div>
 
-                        <div class="test__btn">
-                            <a href="{{ url_for( 'test_home_page',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}">
-                                Решить
-                            </a>
-                        </div>
+
+                        <a class="test__btn"
+                           href="{{ url_for( 'test_home_page',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}">
+                            Решить
+                        </a>
+
                     </div>
                 {% endfor %}
-
-
-                <center><a href="{{ url_for( 'create_material',course_id=course.id, lesson_id=lesson.id) }}">
-                    Add material
-                </a>
-                <br>
-                <a href="{{ url_for( 'create_test',course_id=course.id, lesson_id=lesson.id) }}">
-                    Add test
-                </a></center>
-
             </div>
-
         </div>
     </div>
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
+    <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<script>
+    function getEmoji() {
+        let emoji = [
+            '(=\'X\'=)', '(o^^)o', 'ಠ_ಠ', '╯︿╰',
+            '(^-^*)', '(·_·)', '\\(^Д^)/', '(≥o≤)', '(; - ;)',
+            '\\(o_o)/', '(>_<)', 'ಥ_ಥ', '¯\\_(ツ)_/¯'
+        ];
+
+        let left = document.getElementById("left")
+        let right = document.getElementById("right")
+
+        left.innerHTML = emoji[Math.floor(Math.random() * Math.floor(emoji.length))]
+        right.innerHTML = emoji[Math.floor(Math.random() * Math.floor(emoji.length))]
+    }
+
+    document.addEventListener("DOMContentLoaded", getEmoji);
+</script>
+
+<div class="wrapper">
+
+    {% from 'macro/headerMacro.html' import header %}
+    {% from 'macro/footerMacro.html' import footer %}
+
+    {{ header(current_user) }}
+
+
+    <div class="content">
+        <div class="container">
+            <div class="error"
+                 style="display: flex; flex-direction: column; height: 100%; align-items: center; justify-content: center">
+                <div class="error__text"
+                     style="text-align: center; font-size: 50px; font-weight: 500; margin-bottom: 30px" on="getEmoji()">
+                    <span id="left"></span> Sorry. This page does not exist. <span id="right"></span>
+                </div>
+
+                <img src="{{ url_for('static', filename='image/server.gif') }}" alt="Server ;(">
+
+                <div class="error__text"
+                     style="text-align: center; font-size: 50px; font-weight: 500; margin: 30px" on="getEmoji()">
+                    404
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{ footer(current_user) }}
+
+
+</div>
+</body>
+</html>

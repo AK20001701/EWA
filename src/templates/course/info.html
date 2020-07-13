@@ -31,7 +31,12 @@
         <div class="container">
             <div class="course">
                 <div class="course__img">
-                    <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
+                    {#                    <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">#}
+                    {% if course.image_name != "" %}
+                        <img src="{{ url_for('static', filename='image/' + course.image_name) }}" alt="course">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
+                    {% endif %}
                 </div>
 
                 <div class="course__name">

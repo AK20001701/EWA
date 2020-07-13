@@ -12,6 +12,11 @@ user_course = db.Table('user_course',
                        db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
                        )
 
+user_create_course = db.Table('user_create_course',
+                              db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+                              db.Column('course_id', db.Integer, db.ForeignKey('course.id'), primary_key=True)
+                              )
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,8 +30,12 @@ class User(db.Model, UserMixin):
     registration_date = db.Column(db.DATE, unique=False, nullable=False)
 
     roles = db.relationship('Role', secondary=user_role, lazy=False, backref=db.backref('users', lazy=True))
-    courses = db.relationship('Course', secondary=user_course, lazy=False, backref=db.backref('courses', lazy=True))
     result = db.relationship('Result', backref='user', lazy=True)
+
+    courses = db.relationship('Course', secondary=user_course, lazy=False, backref=db.backref('courses', lazy=True))
+    created_courses = db.relationship(
+        'Course', secondary=user_create_course, lazy=False, backref=db.backref('created_courses', lazy=True)
+    )
 
 
 class Role(db.Model):
@@ -42,6 +51,9 @@ class Course(db.Model):
     visible = db.Column(db.Boolean, unique=False, nullable=False)
     image_name = db.Column(db.String(255), unique=False, nullable=False)
     users = db.relationship('User', secondary=user_course, lazy=False, backref=db.backref('users', lazy=True))
+    creators = db.relationship(
+        'User', secondary=user_create_course, lazy=False, backref=db.backref('creators', lazy=True)
+    )
     lessons = db.relationship('Lesson', backref='course', lazy=True)
 
 
@@ -54,8 +66,6 @@ class Lesson(db.Model):
     test = db.relationship('Test', backref='lesson', lazy=True)
     material = db.relationship('Material', backref='lesson', lazy=True)
 
-
-# add course img
 
 # maybe add position column to control position of test/material by sorting quarry
 

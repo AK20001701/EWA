@@ -1,16 +1,41 @@
 from datetime import datetime
+from functools import wraps
 
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from src import app, db
-from src.models import User, Course
+from src.models import User, Course, Role
 
 
-@app.route('/t')
-def template():
-    return render_template("template.html")
+def has_authority(roles):
+    def actual_decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for role in roles:
+                if Role.query.filter(Role.name == role).first() in current_user.roles:
+                    return func(*args, **kwargs)
+            return abort(403)
+
+        return wrapper
+
+    return actual_decorator
+
+
+def is_curr_user_creator(course_id):
+    course_with_id = Course.query.filter(Course.id == course_id).first()
+    creators_of_course = course_with_id.creators
+    if current_user in creators_of_course:
+        return True
+    else:
+        return abort(403)
+
+
+def is_creator(course_id):
+    course_with_id = Course.query.filter(Course.id == course_id).first()
+    creators_of_course = course_with_id.creators
+    return current_user in creators_of_course
 
 
 @app.route('/')
@@ -63,6 +88,7 @@ def registration_page():
                 password=hash_password,
                 registration_date=datetime.date(datetime.now())
             )
+            new_user.roles.append(Role.query.filter(Role.name == 'Student').first())
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('login_page'))
@@ -73,9 +99,24 @@ def registration_page():
         return render_template("general/register.html")
 
 
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template("general/about.html")
+
+
 @app.errorhandler(404)
 def invalid_route(e):
-    return render_template("general/fourZeroFourError.html")
+    return render_template("error/fourZeroFourError.html")
+
+
+@app.errorhandler(403)
+def invalid_route(e):
+    return render_template("error/fourZeroThreeError.html")
+
+
+@app.errorhandler(500)
+def invalid_route(e):
+    return render_template("error/fiveZeroZero.html")
 
 
 @app.after_request
@@ -87,9 +128,4 @@ def redirect_to_login(response):
 
 @app.route('/test')
 def test():
-
-    course_with_id = Course.query.filter(Course.id == 1).first()
-
-    print(course_with_id.users)
-
     return render_template("general/test.html")

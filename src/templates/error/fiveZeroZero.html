@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Sorry. This page does not exist.</title>
+    <title>500</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
@@ -46,10 +46,12 @@
                  style="display: flex; flex-direction: column; height: 100%; align-items: center; justify-content: center">
                 <div class="error__text"
                      style="text-align: center; font-size: 50px; font-weight: 500; margin-bottom: 30px" on="getEmoji()">
-                    <span id="left"></span> Sorry. This page does not exist. <span id="right"></span>
+                    <span id="left"></span>Что то пошло не так<span id="right"></span>
                 </div>
-
-                <img src="{{ url_for('static', filename='image/server.gif') }}" alt="Server ;(">
+                <div class="error__text"
+                     style="text-align: center; font-size: 50px; font-weight: 500; margin: 30px" on="getEmoji()">
+                    Ошибка: 500
+                </div>
 
             </div>
         </div>

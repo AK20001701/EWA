@@ -99,6 +99,25 @@
     color: #242582;
 }
 
+.create_btn {
+    padding: 10px 20px;
+    margin: 20px 0;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+    text-align: center;
+    width: 100%;
+
+
+
+    transition: 1s;
+}
+
+.create_btn:hover {
+    color: #242582;
+}
+
 @media all and (max-width: 700px) {
     .answer__input {
         text-align: left;

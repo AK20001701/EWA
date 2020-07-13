@@ -29,7 +29,15 @@
         <div class="container">
             <div class="test__name"> {{ test.name }}</div>
 
-            <form action="{{ url_for("test_check",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}" method="POST">
+            {% if is_creator %}
+                <a class="create_btn"
+                   href="{{ url_for('create_question',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}">
+                    Добавить вопрос
+                </a>
+            {% endif %}
+
+            <form action="{{ url_for("test_check",course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
+                  method="POST">
                 <div class="test">
                     {% for question in questions %}
                         <div class="question">
@@ -65,17 +73,14 @@
                                 {% endfor %}
                             {% elif question.q_type == 'text' %}
                                 {% for answer in question.answer %}
-                                        <input class="answer__input" type="text" name="{{ answer.id }}">
-                                 {% endfor %}
+                                    <input class="answer__input" type="text" name="{{ answer.id }}">
+                                {% endfor %}
                             {% endif %}
                         </div>
                     {% endfor %}
 
                     <button type="submit" class="test__btn">Проверить</button>
 
-
-                    <a href="{{ url_for('create_question',course_id=course.id, lesson_id=lesson.id, test_id=test.id) }}"
-                       class="btn btn-primary ml-2">Добавить вопрос</a>
                 </div>
             </form>
         </div>

@@ -29,6 +29,10 @@
     transition: 1s;
 }
 
+.course__btn:hover {
+    color: #242582;
+}
+
 .courses__row {
     flex: 1;
     display: flex;
@@ -91,16 +95,31 @@
     padding: 5px;
     border-radius: 5px;
     font-size: 20px;
-}
 
-.course__link a {
     text-decoration: none;
     color: aliceblue;
     transition: 1s;
 }
 
-.course__link a:hover {
+.course__link:hover {
     text-decoration: none;
+    color: #242582;
+}
+
+.create_course_btn {
+    padding: 10px 20px;
+    margin: 0 30px;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+    text-align: center;
+
+
+    transition: 1s;
+}
+
+.create_course_btn:hover {
     color: #242582;
 }
 

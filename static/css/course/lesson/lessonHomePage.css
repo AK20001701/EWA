@@ -8,6 +8,7 @@
     text-align: center;
     font-size: 45px;
     font-weight: 700;
+    margin-top: 15px;
 }
 
 .lesson__pre {
@@ -22,15 +23,14 @@
     font-size: 25px;
     width: 20%;
     text-align: center;
-}
+    margin-top: 15px;
 
-.back__btn a {
     text-decoration: none;
     color: aliceblue;
     transition: 1s;
 }
 
-.back__btn a:hover {
+.back__btn:hover {
     text-decoration: none;
     color: #242582;
 }
@@ -47,6 +47,13 @@
 }
 
 .material__title {
+    font-size: 35px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.material__name {
     font-size: 30px;
     text-align: center;
     font-weight: 400;
@@ -57,16 +64,14 @@
     border-radius: 5px;
     font-size: 25px;
     background: linear-gradient(#6f4495, #f64c72);
-}
 
-.material__btn a {
     text-decoration: none;
     color: aliceblue;
 
     transition: 1s;
 }
 
-.material__btn a:hover {
+.material__btn:hover {
     color: #242582;
     text-decoration: none;
 }
@@ -75,10 +80,18 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-content: center;
     margin: 10px 0;
 }
 
 .test__title {
+    font-size: 35px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.test__name {
     font-size: 30px;
     text-align: center;
     font-weight: 400;
@@ -97,18 +110,33 @@
     border-radius: 5px;
     font-size: 25px;
     background: linear-gradient(#6f4495, #f64c72);
-}
 
-.test__btn a {
     text-decoration: none;
     color: aliceblue;
 
     transition: 1s;
 }
 
-.test__btn a:hover {
+.test__btn:hover {
     color: #242582;
     text-decoration: none;
+}
+
+.create_btn {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+    text-align: center;
+
+
+    transition: 1s;
+}
+
+.create_btn:hover {
+    color: #242582;
 }
 
 

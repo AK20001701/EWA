@@ -30,32 +30,35 @@
             <div class="course">
 
                 <div class="course__title">
-                    {{ course.name }}
+                    Курс: {{ course.name }}
                 </div>
+
+                {% if is_creator %}
+                    <a class="create_lesson_btn" href="{{ url_for( 'create_lesson',course_id=course.id) }}">
+                        Создать урок
+                    </a>
+                {% endif %}
+
 
                 {% for lesson in lessons %}
                     <div class="course__lesson">
                         <div class="lesson__title">
-                            {{ lesson.name }}
+                            Название: {{ lesson.name }}
                         </div>
                         <div class="lesson__description">
-                            {{ lesson.description }}
+                            Описание: {{ lesson.description }}
                         </div>
                         <div class="lesson__difficulty">
-                            {{ lesson.difficulty }}
+                            Сложность: {{ lesson.difficulty }}
                         </div>
 
-                        <div class="lesson__btn">
-                            <a href="{{ url_for('lesson_home_page', course_id=course.id, lesson_id=lesson.id) }}">Пройти</a>
-                        </div>
+
+                        <a class="lesson__btn"
+                           href="{{ url_for('lesson_home_page', course_id=course.id, lesson_id=lesson.id) }}">Пройти</a>
+
 
                     </div>
                 {% endfor %}
-
-                <a href="{{ url_for( 'create_lesson',course_id=course.id) }}">
-                    Create new lesson (for teacher who created course)
-                </a>
-
             </div>
         </div>
     </div>

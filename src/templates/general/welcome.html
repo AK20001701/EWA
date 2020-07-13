@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>EWA | Education Web App</title>
 
+    <meta property="og:title" content="EWA"/>
+    <meta property="og:description" content="Education Web App"/>
+    <meta property="og:image"
+          content="{{ url_for('static', filename='image/' + 'ewa.jpg') }}"/>
+    <meta property="og:type" content="website"/>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
@@ -13,10 +19,7 @@
     <script src="{{ url_for('static', filename='js/header.js') }}"></script>
     <script src="https://kit.fontawesome.com/8cf596884a.js" crossorigin="anonymous"></script>
 
-    <!-- bootstrap -->
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/welcome.css') }}">
 </head>
 <body>
 
@@ -30,81 +33,23 @@
 
     <div class="content">
         <div class="container">
-            Content
+            <div class="welcome">
+                <div class="welcome__text">
+                    Добро пожаловать в образовательное веб приложение или просто EWA!
+                </div>
+
+                <a href=#" class="welcome__btn">Демонстрационный тест. (Временно не работает)</a>
+
+                <a href="{{ url_for('about') }}" class="welcome__btn">О проекте</a>
+
+                <a href="{{ url_for('all_courses') }}" class="welcome__btn">Все курсы</a>
+
+            </div>
         </div>
     </div>
 
     {{ footer(current_user) }}
 
 </div>
-
-<div class="container">
-    <div class="row">
-        <div class="col text-center">
-            <h1>Welcome</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <a class="btn btn-outline-primary" href="{{ url_for("login_page") }}">Login</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center text-muted">
-            <div class="">or</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <a class="btn btn-outline-success" href="{{ url_for("registration_page") }}">Register</a>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col text-center text-muted">
-            <div class="">or</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <a class="btn btn-outline-warning" href="{{ url_for("logout") }}">Logout</a>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col text-center text-muted">
-            <div class="">or</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <a class="btn btn-outline-info" href="{{ url_for("user_page") }}">Visit user page</a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center text-muted">
-            <div class="">or</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <a class="btn btn-outline-danger" href="{{ url_for('all_courses') }}">
-                All our great courses here!
-            </a>
-        </div>
-    </div>
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
 </body>
 </html>

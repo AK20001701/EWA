@@ -34,6 +34,10 @@
                     <input class="course__btn" type="submit" value="Поиск">
                 </form>
 
+                {% if is_teacher %}
+                    <a class="create_course_btn" href="{{ url_for('create_course') }}">Create course</a>
+                {% endif %}
+
                 <div class="courses__row">
 
                     {% for course in courses %}
@@ -42,7 +46,8 @@
                             <div class="course__img">
 
                                 {% if course.image_name != "" %}
-                                    <img src="{{ url_for('static', filename='image/' + course.image_name) }}" alt="course">
+                                    <img src="{{ url_for('static', filename='image/' + course.image_name) }}"
+                                         alt="course">
                                 {% else %}
                                     <img src="{{ url_for('static', filename='image/course.png') }}" alt="course">
                                 {% endif %}
@@ -55,17 +60,13 @@
                                 <div class="course__rating">
                                     Rating: {{ course.rating }}
                                 </div>
-                                <div class="course__link">
-                                    <a href="{{ url_for( 'show_course',course_id=course.id) }}">Подробнее</a>
-                                </div>
+
+                                <a class="course__link" href="{{ url_for( 'show_course',course_id=course.id) }}">Подробнее</a>
+
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-
-
-                <!-- УБРАТЬ -->
-                <a href="{{ url_for('create_course') }}">Create course</a>
             </div>
         </div>
     </div>

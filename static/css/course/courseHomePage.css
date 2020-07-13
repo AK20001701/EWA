@@ -8,6 +8,7 @@
     text-align: center;
     font-weight: 700;
     font-size: 45px;
+    margin: 15px 0;
 }
 
 .course__lesson {
@@ -28,13 +29,13 @@
     overflow: hidden;
     white-space: nowrap;
 
-     padding: 5px 0;
+    padding: 5px 0;
 }
 
 .lesson__description {
     font-size: 25px;
     margin: 0 15px;
-    width: 50%;
+    width: 45%;
 
     padding: 5px 0;
 
@@ -46,7 +47,7 @@
 .lesson__difficulty {
     font-size: 25px;
 
-    width: 10%;
+    width: 15%;
 }
 
 .lesson__btn {
@@ -58,30 +59,38 @@
     text-align: center;
 
     width: 15%;
-
     color: aliceblue;
-
     transition: 1s;
-}
 
-.lesson__btn a {
-    color: aliceblue;
-    text-decoration: none;
-    transition: 1s;
 }
 
 
-.lesson__btn:hover a {
+.lesson__btn:hover {
     color: #242582;
     text-decoration: none;
 }
 
+.create_lesson_btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 25px;
+    background: linear-gradient(#6f4495, #f64c72);
+    color: aliceblue;
+    text-align: center;
+
+    transition: 1s;
+}
+
+.create_lesson_btn:hover {
+    color: #242582;
+}
+
 @media all and (max-width: 700px) {
-    .lesson__description{
+    .lesson__description {
         display: none;
     }
 
-    .lesson__difficulty{
+    .lesson__difficulty {
         display: none;
     }
 

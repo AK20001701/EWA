@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 from src import app, db
 from src.models import User, Role
+from src.routes.general import has_authority
 
 
 @app.route("/user", methods=['GET', 'POST'])
@@ -29,8 +30,8 @@ def user_page():
         return render_template("user/homePage.html", user=curr_user)
 
 
-# for admin only
 @app.route("/user/all", methods=['GET'])
+@has_authority(['Admin'])
 @login_required
 def all_users():
     # curr_user_id = current_user.get_id()
@@ -41,8 +42,8 @@ def all_users():
     return render_template("user/all.html", users=all_users_from_db, roles=all_roles_from_db)
 
 
-# for admin only
 @app.route("/user/deleteUser", methods=['POST'])
+@has_authority(['Admin'])
 @login_required
 def delete_user():
     # curr_user_id = current_user.get_id()
@@ -56,8 +57,8 @@ def delete_user():
     return redirect(url_for('all_users'))
 
 
-# for admin only
 @app.route("/user/changeRole", methods=['POST'])
+@has_authority(['Admin'])
 @login_required
 def change_user_role():
     # curr_user_id = current_user.get_id()
