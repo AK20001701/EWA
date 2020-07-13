@@ -42,7 +42,7 @@
                             {% if current_user.is_authenticated %}
                                 <li class="header__link"><a href="{{ url_for('my_courses') }}">Мои курсы</a></li>
                             {% endif %}
-                            <li class="header__link"><a href="#">О проекте</a></li>
+                            <li class="header__link"><a href="{{ url_for('about') }}">О проекте</a></li>
                         </ul>
                         <div class="header__user">
                             {% if current_user.is_authenticated %}
